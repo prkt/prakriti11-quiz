@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Online Quiz</h2>
+<p>
+    This time in Prakriti, we bring to you an online quiz on topics related to Agriculture and Food Engineering. Some questions will be from other fields as well.
+</p>
+<p style="color:green;">
+    <i><b>Online Quiz is over. You can download report of your attempts and answers to all questions.</b></i>
+</p>
+<p style="text-align:center;">
+    <a href="/quiz/your-attempts/"><button>See your attempts</button></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/quiz/see-answers/"><button>See Answers</button></a>
+</p>
+<p>
+    <b>Rules</b><br>
+    <ul style="list-style:decimal;">
+        <li>At max only 30 questions can be answered in one day.</li>
+        <li>Every question is having a timeout of at max 10 minutes. If it is answered after timeout,  no marks will be awarded.</li>
+        <li>For every question there is a minimum time limit (generally 8 seconds but may be more or less depending on word count of question). If time taken to answer is more than minimum time limit, then marks will be awarded using following formula :
+        <br><span style="font-size:10px;"><b>Marks_awarded = (Maximum_marks)*(Minimum_time_limit)/(Actual_time_taken)</b>
+        <br>** Rounded off upto two decimal points.</span>
+        </li>
+        <li>Try to answer as quickly as you can.</li>
+        <li>No question will be repeated for a user even if he refuses to answer after seeing it. Even if you skip a question, it will be counted in daily limit.</li>
+        <!--
+        <li>Since, questions are selected randomly from a large database, <b>probability of two persons getting the same question simultaneously is less than 0.50 percent.</b> Please don't try to behave smartly.</li>
+        -->
+        <li>Check your score, rank etc. in the <a href="/quiz/dashboard/">dashboard</a>.</li>
+        <li><span style=""><b>If difference between "Time Taken between Request and Submission to Server" and "Time Taken Calculated by Timer" is found more than 10 seconds, it means either your connection is very slow or you are trying to manipulate timer. If this will happen frequently, your quiz account will be disabled and no marks will be awarded for such submissions. It's advised not to use slow GPRS connection of cellphone for this event.</b></span></li>     
+    </ul>
+</p>
+{% endblock %}

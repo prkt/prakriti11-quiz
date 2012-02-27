@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Online Quiz</h2>
+<p style="color:green;">
+    <i><b>
+        Results of online quiz have been freezed on 9th March 2011 at 11:59 PM. You can answer remaining questions if you want to.
+        <br/>
+        Thanks! for participating and please mail us your feedback at contact@prkt.in
+    </b></i>
+</p>
+<p>
+	<p><strong>Question : </strong>{{ question.title }}</p>
+	<div style="margin-left:10px;">
+		<strong>(1). </strong>{{ question.option1 }}<br>
+		<strong>(2). </strong>{{ question.option2 }}<br>
+		<strong>(3). </strong>{{ question.option3 }}<br>
+		<strong>(4). </strong>{{ question.option4 }}<br><br>
+		
+		<strong>Your choice was {{ opt }}.</strong><br>
+		{{ q.correct_option }}
+		{% if success %}
+		Your answer is <span style="color:green;">correct.</span><br>
+		{% else %}
+		Your answer is <span style="color:red;">incorrect.</span><br>
+		{% endif %}
+		Total time taken : {{ time }} seconds.<br>
+		Expected minimum time to get full marks (if correct answer): {{ question.min_time }} seconds.<br>
+		Your score in this question : {{ marks }}.<br>
+		Maximum score of this question : {{ question.max_marks }}.<br><br>
+		{% if alert %}
+		<b style="color:red;">Alert : <i>difference between "Time Taken between Request and Submission to Server" and "Time Taken Calculated by Timer" was to be found more than 10 seconds, it means either your connection is very slow or you were trying to manipulate timer. If this will happen frequently, your quiz account will be disabled and no marks will be awarded for such submissions. It's advised not to use slow GPRS connection of cellphone for this event.</i></b><br><br>
+		{% endif %}
+	</div>
+</p>
+<p style="text-align:center;">
+	<a href="/quiz/"><button>Quiz Home</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="/quiz/play/"><button>Next Question</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="/quiz/dashboard/"><button>Your Dashboard</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+{% endblock %}

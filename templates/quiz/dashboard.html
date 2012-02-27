@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load comments %}
+{% block extra_head %}
+<script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script>
+{% endblock %}
+{% block content %}
+<h2>Online Quiz</h2>
+<p>
+	Hello! {{ request.user }},<br>
+	<b> Your current rank - </b> {{ rank }} <br>
+	<b>Total no. of players - </b> {{ players_count }} <br>
+	<b> Total score - </b> {{ quiz_profile.total_score }} <br>
+	<b> Total time spent for answering - </b> {{ quiz_profile.total_time }} <br>
+	<b> No. of questions attempted - </b> {{ quiz_profile.total_attempts }} <br><br>
+	<a name="fb_share" share_url="{{ site }}/quiz/share-on-facebook/{{ quiz_profile.fb_share_key }}/" type="icon_link" style="text-decoration:underline; color:#blue;"><u>Share your rank on Facebook</u></a>
+</p>
+<p style="color:green;">
+    <i><b>
+        Results of online quiz have been freezed on 9th March 2011 at 11:59 PM. You can answer remaining questions if you want to.
+        <br/>
+        Thanks! for participating and please mail us your feedback at contact@prkt.in
+    </b></i>
+</p>
+<p style="text-align:center;">
+	<a href="/quiz/"><button>Quiz Home</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="/quiz/play/"><button>Play Quiz</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p>
+    <a href="#comments"  style="text-decoration:underline; color:#blue;">See Comments</a>
+</p>
+<div style="margin-left:30px;">
+<p style="margin-top:360px;">
+	<h3>Top {{ top_hundread.count }} players</h3><br>
+	<table style="width:800px; border-collapse:collapse;">
+		<tr>
+			<th style="text-align:center; width:50px;border:1px solid #333333; padding:5px;">Rank</th>
+			<th style="text-align:center; width:50px;border:1px solid #333333; padding:5px;">Userame</th>
+			<th style="text-align:center; width:200px;border:1px solid #333333; padding:5px;">Full Name</th>
+			<th style="text-align:center; width:300px;border:1px solid #333333; padding:5px;">College</th>
+			<th style="text-align:center; width:150px;border:1px solid #333333; padding:5px;">Year</th>
+			<th style="text-align:center; width:50px;border:1px solid #333333; padding:5px;">Total Marks</th>
+			<th style="text-align:center; width:50px;border:1px solid #333333; padding:5px;">Questions Attempted</th>
+		</tr>
+		{% for t in top_hundread %}
+		<tr>
+			<td style="text-align:center;border:1px solid #333333; padding:5px;">{{ forloop.counter }}</td>
+			<td style="text-align:center;border:1px solid #333333; padding:5px;">{{ t.user }}</td>
+			<td style="text-align:center;border:1px solid #333333; padding:5px;">{{ t.user.get_profile.name }}</td>
+			<td style="text-align:center;border:1px solid #333333; padding:5px;">{{ t.user.get_profile.get_college_display }}</td>
+			<td style="text-align:center;border:1px solid #333333; padding:5px;">{{ t.user.get_profile.get_year_display }}</td>
+			<td style="text-align:center;border:1px solid #333333; padding:5px;">{{ t.total_score }}</td>
+			<td style="text-align:center;border:1px solid #333333; padding:5px;">{{ t.total_attempts }}</td>
+		</tr>
+		{% endfor %}
+	</table>
+</p>
+<p style="text-align:center; margin-bottom:50px;width:800px;">
+	<a href="/quiz/"><button>Quiz Home</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="/quiz/play/"><button>Play Quiz</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p id="comments">
+    {% get_comment_count for quiz as comment_count %}
+    {% get_comment_list for quiz as comment_list %}
+    {% get_comment_form for quiz as form %}
+    <h3>Comments({{ comment_count }})</h3>
+        <table style="border-collapse: collapse; width:800px;">
+        {% for c in comment_list %}        
+        <tr><th style="width:100px;border:1px solid #333333; padding:5px;">{{ c.user }} says <br/><span style="font-size:9px; text-weight:none;">{{ c.submit_date|timesince }} ago</span></th><td style="border:1px solid #333333; padding:5px;">{{ c.comment|linebreaksbr }}</td><tr>
+        {% endfor %}
+        </table>
+        <br>
+    <script language="JavaScript" type="text/javascript">
+        function checkform ( form )
+        {
+            if (form.comment.value == "") {
+            alert( "Please enter your comment." );
+            form.comment.focus();
+            return false ;
+        }
+        return true ;
+    }
+    </script>
+    <form action="{% comment_form_target %}" method="post" onsubmit="return checkform(this);">
+        <table>
+            {% for field in form.hidden_fields %}
+            {{ field }}
+            {% endfor %}
+            <tr style="display:none">
+                <th><label for="id_name">Name</label></th> <td><input id="id_name" type="text" name="name" maxlength="50" value="{{request.user.username }}"/></td>
+            </tr>
+            <tr style="display:none">
+                <th><label for="id_email">Email address</label></th> <td><input type="text" name="email" id="id_email" value="{{request.user.email }}"/></td>
+            </tr>
+            <tr style="display:none">
+                <th><label for="id_url">URL</label></th> <td><input type="text" name="url" id="id_url" /></td>
+            </tr>
+                <tr>
+                <th><label for="id_comment">Comment</label></th> <td><textarea id="id_comment" rows="10" cols="40" name="comment"  style="width:580px; max-width:580px; height:150px; max-height:150px;"></textarea></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" name="post" class="submit-post" value="Post"></td>
+                <input type="hidden" name="next" value="/quiz/dashboard/#comments" />
+            </tr>
+        </table>
+    </form>
+</p>
+</div>
+{% endblock %}

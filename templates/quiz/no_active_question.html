@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Online Quiz</h2>
+<p>
+	There are no new questions for you.<br>
+	{% if limit_exceeded %}
+	<span style="color:red;">You have reached daily limit of {{ daily_limit }} questions</span>
+	{% endif %}
+</p>
+<p style="text-align:center; margin-bottom:50px;">
+	<a href="/quiz/"><button>Quiz Home</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+	<a href="/quiz/dashboard/"><button>Your Dashboard</button></a>&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+{% endblock %}
